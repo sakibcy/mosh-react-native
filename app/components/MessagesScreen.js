@@ -1,14 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { FlatList, SafeAreaView, StyleSheet, View } from "react-native";
-import Constants from "expo-constants";
 
 import ListItem from "./ListItem";
 import Screen from "./Screen";
 import ListItemSeparator from "./ListItemSeparator";
+import ListItemDeleteAction from "./ListItemDeleteAction";
 
-console.log(Constants);
-
-const messages = [
+const initialMessages = [
   {
     id: 1,
     title: "T1",
@@ -24,19 +22,41 @@ const messages = [
 ];
 
 export default function MessagesScreen() {
+  const [messages, setMessages] = useState(initialMessages);
+  const [refreshing, setFreshing] = useState(false);
+
+  const handleDelete = (message) => {
+    const newMessages = messages.filter((m) => m.id !== message.id);
+    setMessages(newMessages);
+  };
   return (
     <Screen>
       <FlatList
         data={messages}
-        keyExtractor={(message) => message.id}
+        keyExtractor={(message) => message.id.toString()}
         renderItem={({ item }) => (
           <ListItem
             title={item.title}
             subTitle={item.description}
             image={item.image}
+            onPress={() => console.log()}
+            renderRightActions={() => (
+              <ListItemDeleteAction onPress={() => handleDelete(item)} />
+            )}
           />
         )}
         ItemSeparatorComponent={ListItemSeparator}
+        refreshing={refreshing}
+        onRefresh={() =>
+          setMessages([
+            {
+              id: 2,
+              title: "T2",
+              description: "D2",
+              image: require("../assets/doraemon.png"),
+            },
+          ])
+        }
       />
     </Screen>
   );
