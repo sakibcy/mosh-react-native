@@ -1,4 +1,11 @@
-import { SafeAreaView, Text, TextInput, View, ViewStyle } from "react-native";
+import {
+  SafeAreaView,
+  Switch,
+  Text,
+  TextInput,
+  View,
+  ViewStyle,
+} from "react-native";
 import AppButton from "./app/components/AppButton";
 import WelcomeScreen from "./app/screens/WelcomeScreen";
 
@@ -13,8 +20,27 @@ import AccountScreen from "./app/screens/AccountScreen";
 import ListingsScreen from "./app/screens/ListingsScreen";
 import { useState } from "react";
 import AppTextInput from "./app/components/AppTextInput";
+import AppPicker from "./app/components/AppPicker";
 
 export default function App() {
-  const [firstName, setFirstName] = useState("");
-  return <AppTextInput placeholder="Username" icon={"email"} />;
+  const [category, setCategory] = useState();
+
+  const categories = [
+    { label: "Furniture", value: 1 },
+    { label: "Cameras", value: 2 },
+    { label: "Clothing", value: 3 },
+  ];
+
+  return (
+    <Screen>
+      <AppPicker
+        selectedItem={category}
+        onSelectedItem={(item) => setCategory(item)}
+        items={categories}
+        icon={"apps"}
+        placeholder={"Category"}
+      />
+      <AppTextInput icon={"email"} placeholder="Email" />
+    </Screen>
+  );
 }
