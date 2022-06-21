@@ -21,9 +21,12 @@ import AppPickerModal from "./AppPickerModal";
 export default function AppPicker({
   icon,
   items,
+  numberOfColumns = 1,
   placeholder,
+  PickerItemComponent = PickerItem,
   onSelectedItem,
   selectedItem,
+  width = "100%",
   ...otherProps
 }) {
   const [modalVisible, setModalVisible] = useState(false);
@@ -31,7 +34,7 @@ export default function AppPicker({
   return (
     <React.Fragment>
       <TouchableWithoutFeedback onPress={() => setModalVisible(true)}>
-        <View style={styles.conatiner}>
+        <View style={[styles.conatiner, { width }]}>
           <MaterialCommunityIcons
             name={icon}
             size={20}
@@ -57,8 +60,10 @@ export default function AppPicker({
             <FlatList
               data={items}
               keyExtractor={(item) => item.value.toString()}
+              numColumns={numberOfColumns}
               renderItem={({ item }) => (
-                <PickerItem
+                <PickerItemComponent
+                  item={item}
                   label={item.label}
                   onPress={() => {
                     setModalVisible(false);
@@ -74,8 +79,10 @@ export default function AppPicker({
             <FlatList
               data={items}
               keyExtractor={(item) => item.value.toString()}
+              numColumns={numberOfColumns}
               renderItem={({ item }) => (
-                <PickerItem
+                <PickerItemComponent
+                  item={item}
                   label={item.label}
                   onPress={() => {
                     setModalVisible(false);
@@ -97,7 +104,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.light_gray,
     borderRadius: 25,
     flexDirection: "row",
-    width: "100%",
     padding: 15,
     marginVertical: 10,
   },
