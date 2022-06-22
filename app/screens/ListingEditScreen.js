@@ -1,18 +1,20 @@
-import { StyleSheet, Text, View } from "react-native";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import * as Yup from "yup";
 
 import Screen from "./../components/Screen";
 import { AppForm, AppFormField, SubmitButton } from "../components/forms";
-import PickerItem from "../components/PickerItem";
 import AppFormPicker from "../components/forms/AppFormPicker";
 import CategoryPickerItem from "./../components/CategoryPickerItem";
+import FormImagePicker from "../components/forms/FormImagePicker";
+import useLocation from "./../hooks/useLocation";
 
 const validationSchema = Yup.object().shape({
   title: Yup.string().required().min(1).label("Title"),
   price: Yup.string().required().min(1).max(10000).label("Price"),
   description: Yup.string().label("Desciption"),
   category: Yup.object().required().nullable().label("Category"),
+  image: Yup.array().min(1, "Please select at least one image"),
 });
 
 const categories = [
@@ -22,44 +24,50 @@ const categories = [
 ];
 
 const ListingEditScreen = () => {
+  const location = useLocation();
+
   return (
-    <Screen style={styles.container}>
-      <AppForm
-        initialValues={{
-          title: "",
-          price: "",
-          description: "",
-          category: null,
-        }}
-        onSubmit={(values) => console.log(values)}
-        validationSchema={validationSchema}
-      >
-        <AppFormField maxLength={255} name={"title"} placeholder="Title" />
-        <AppFormField
-          keyboardType="numeric"
-          maxLength={8}
-          name="price"
-          placeholder="Price"
-          width={120}
-        />
-        <AppFormPicker
-          items={categories}
-          name="category"
-          numberOfColumns={3}
-          pickerItemComponent={CategoryPickerItem}
-          placeholder="Category"
-          width="50%"
-        />
-        <AppFormField
-          maxLength={255}
-          multiline
-          name={"description"}
-          numberOfLines={3}
-          placeholder="Description"
-        />
-        <SubmitButton title={"Post"} />
-      </AppForm>
-    </Screen>
+    <ScrollView>
+      <Screen style={styles.container}>
+        <AppForm
+          initialValues={{
+            title: "",
+            price: "",
+            description: "",
+            category: null,
+            images: [],
+          }}
+          onSubmit={(values) => console.log(location)}
+          validationSchema={validationSchema}
+        >
+          <FormImagePicker name={"images"} />
+          <AppFormField maxLength={255} name={"title"} placeholder="Title" />
+          <AppFormField
+            keyboardType="numeric"
+            maxLength={8}
+            name="price"
+            placeholder="Price"
+            width={120}
+          />
+          <AppFormPicker
+            items={categories}
+            name="category"
+            numberOfColumns={3}
+            pickerItemComponent={CategoryPickerItem}
+            placeholder="Category"
+            width="50%"
+          />
+          <AppFormField
+            maxLength={255}
+            multiline
+            name={"description"}
+            numberOfLines={3}
+            placeholder="Description"
+          />
+          <SubmitButton title={"Post"} />
+        </AppForm>
+      </Screen>
+    </ScrollView>
   );
 };
 
