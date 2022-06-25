@@ -1,26 +1,34 @@
-import React from "react";
-import { Image, View, StyleSheet } from "react-native";
+import React, { useRef } from "react";
+import { Image, View, StyleSheet, ScrollView } from "react-native";
 
 import colors from "../config/colors";
-import AppText from "./AppText";
-import ListItem from "./ListItem";
+import AppText from "../components/AppText";
+import ListItem from "../components/lists/ListItem";
 
-export default function ListingDetailsScreen() {
+export default function ListingDetailsScreen({ route }) {
+  const scrollView = useRef();
+  const listings = route.params;
+
   return (
-    <View>
-      <Image style={styles.image} source={require("../assets/jacket.jpg")} />
-      <View style={styles.detailsContainer}>
-        <AppText style={styles.title}>Red jacket for sale</AppText>
-        <AppText style={styles.price}>$100</AppText>
-        <View style={styles.userConatiner}>
-          <ListItem
-            image={require("../assets/doraemon.png")}
-            title="Doraemon"
-            subTitle="5 Listing"
-          />
+    <ScrollView
+    // ref={scrollView}
+    // onContentSizeChange={() => scrollView.current.scrollToEnd()}
+    >
+      <View>
+        <Image style={styles.image} source={listings.image} />
+        <View style={styles.detailsContainer}>
+          <AppText style={styles.title}>{listings.title}</AppText>
+          <AppText style={styles.price}>{listings.price}</AppText>
+          <View style={styles.userConatiner}>
+            <ListItem
+              image={require("../assets/doraemon.png")}
+              title="Doraemon"
+              subTitle="5 Listing"
+            />
+          </View>
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 }
 

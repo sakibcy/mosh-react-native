@@ -1,11 +1,12 @@
 import React from "react";
 import { FlatList, StyleSheet, View } from "react-native";
 
-import ListItem from "../components/ListItem";
+import ListItem from "../components/lists/ListItem";
 import Screen from "../components/Screen";
 import colors from "../config/colors";
+import routes from "../navigation/routes";
 import Icon from "./../components/Icon";
-import ListItemSeparator from "./../components/ListItemSeparator";
+import ListItemSeparator from "./../components/lists/ListItemSeparator";
 
 const menuItem = [
   {
@@ -21,10 +22,11 @@ const menuItem = [
       name: "email",
       backgroundColor: colors.secondary,
     },
+    targetScreen: routes.MESSAGES,
   },
 ];
 
-export default function AccountScreen() {
+export default function AccountScreen({ navigation }) {
   return (
     <Screen style={styles.screen}>
       <View style={styles.container}>
@@ -50,6 +52,7 @@ export default function AccountScreen() {
                   backgroundColor={item.icon.backgroundColor}
                 />
               }
+              onPress={() => navigation.navigate(item.targetScreen)}
             />
           )}
         />

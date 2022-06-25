@@ -24,95 +24,12 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import AuthNavigator from "./app/navigation/AuthNavigator";
 import navigationTheme from "./app/navigation/navigationTheme";
-
-const Link = () => {
-  const navigation = useNavigation();
-
-  return (
-    <Button
-      title="Click Me!"
-      onPress={() => navigation.navigate("TweetDetails", { id: 1 })}
-    />
-  );
-};
-
-const Tweets = ({ navigation }) => (
-  <Screen>
-    <Text>Tweets</Text>
-    <Button
-      title="Tweet Details"
-      onPress={() => navigation.navigate("TweetDetails", { id: 1 })}
-    />
-    <Link />
-  </Screen>
-);
-
-const TweetDetails = ({ route }) => {
-  return (
-    <Screen>
-      <Text>Tweet Details {route.params.id}</Text>
-    </Screen>
-  );
-};
-
-const Stack = createNativeStackNavigator();
-const StackNavigator = () => (
-  <Stack.Navigator initialRouteName="Tweets">
-    <Stack.Screen name="Tweets" component={Tweets} />
-    <Stack.Screen
-      name="TweetDetails"
-      component={TweetDetails}
-      options={({ route }) => ({
-        title: route.params.id.toString(),
-        headerStyle: { backgroundColor: "tomato" },
-        headerTintColor: "white",
-        headerShown: true,
-      })}
-    />
-  </Stack.Navigator>
-);
-
-const Account = () => (
-  <Screen>
-    <Text>Account</Text>
-  </Screen>
-);
-
-const Tab = createBottomTabNavigator();
-const TabNavigator = () => (
-  <Tab.Navigator
-    screenOptions={{
-      tabBarActiveBackgroundColor: "tomato",
-      tabBarActiveTintColor: "white",
-      tabBarInactiveBackgroundColor: "#eee",
-      tabBarInactiveTintColor: "black",
-    }}
-  >
-    <Tab.Screen
-      name="Feed"
-      component={Tweets}
-      options={{
-        tabBarIcon: ({ size, color }) => (
-          <MaterialCommunityIcons color={color} name="home" size={size} />
-        ),
-      }}
-    />
-    <Tab.Screen
-      name="Account"
-      component={Account}
-      options={{
-        tabBarIcon: ({ size, color }) => (
-          <MaterialCommunityIcons name="account" color={color} size={size} />
-        ),
-      }}
-    />
-  </Tab.Navigator>
-);
+import AppNavigator from "./app/navigation/AppNavigator";
 
 export default function App() {
   return (
     <NavigationContainer theme={navigationTheme}>
-      <AuthNavigator />
+      <AppNavigator />
     </NavigationContainer>
   );
 }
