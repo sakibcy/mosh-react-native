@@ -15,7 +15,7 @@ export default function ListingDetailsScreen({ route }) {
     // onContentSizeChange={() => scrollView.current.scrollToEnd()}
     >
       <View>
-        <Image style={styles.image} source={listings.image} />
+        <Image style={styles.image} source={{ uri: listings.imageUrl }} />
         <View style={styles.detailsContainer}>
           <AppText style={styles.title}>{listings.title}</AppText>
           <AppText style={styles.price}>{listings.price}</AppText>
