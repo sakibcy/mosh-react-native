@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
-import { Image, View, StyleSheet, ScrollView } from "react-native";
+import { View, StyleSheet, ScrollView } from "react-native";
+import { Image } from "react-native-expo-image-cache";
 
 import colors from "../config/colors";
 import AppText from "../components/AppText";
@@ -15,7 +16,12 @@ export default function ListingDetailsScreen({ route }) {
     // onContentSizeChange={() => scrollView.current.scrollToEnd()}
     >
       <View>
-        <Image style={styles.image} source={{ uri: listings.imageUrl }} />
+        <Image
+          style={styles.image}
+          preview={{ uri: listings.images[0].thumbnailUrl }}
+          tint="light"
+          uri={listings.images[0].url}
+        />
         <View style={styles.detailsContainer}>
           <AppText style={styles.title}>{listings.title}</AppText>
           <AppText style={styles.price}>{listings.price}</AppText>
