@@ -12,6 +12,7 @@ import {
 import authApi from "../apis/auth";
 import jwtDecode from "jwt-decode";
 import AuthContext from "./../auth/contex";
+import authStorage from "../auth/storage";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().required().email().label("Email"),
@@ -28,6 +29,7 @@ function LoginScreen() {
     setLoginFailed(false);
     const user = jwtDecode(response.data);
     authContext.setUser(user);
+    authStorage.storeToken(response.data);
   };
 
   return (
