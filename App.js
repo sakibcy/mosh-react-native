@@ -31,9 +31,11 @@ import OfflineNotice from "./app/components/OfflineNotice";
 import AuthContext from "./app/auth/contex";
 import authStorage from "./app/auth/storage";
 import jwtDecode from "jwt-decode";
+import AppLoading from "expo-app-loading";
 
 export default function App() {
   const [user, setUser] = useState();
+  const [isReady, setIsReady] = useState(false);
 
   const restoreToken = async () => {
     const token = await authStorage.getToken();
@@ -41,9 +43,16 @@ export default function App() {
     setUser(jwtDecode(token));
   };
 
-  useEffect(() => {
-    restoreToken();
-  }, []);
+  if (!isReady)
+    return (
+      <AppLoading
+        startAsync={restoreToken}
+        onFinish={() => setIsReady(true)}
+        onError={() =>
+          console.log("There is an error while loading the screen ")
+        }
+      />
+    );
 
   return (
     <AuthContext.Provider value={{ user, setUser }}>
