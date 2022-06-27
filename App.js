@@ -28,14 +28,16 @@ import AppNavigator from "./app/navigation/AppNavigator";
 import NetInfo, { useNetInfo } from "@react-native-community/netinfo";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import OfflineNotice from "./app/components/OfflineNotice";
+import AuthContext from "./app/auth/contex";
 
 export default function App() {
+  const [user, setUser] = useState();
   return (
-    <React.Fragment>
+    <AuthContext.Provider value={{ user, setUser }}>
       <OfflineNotice />
       <NavigationContainer theme={navigationTheme}>
-        <AppNavigator />
+        {user ? <AppNavigator /> : <AuthNavigator />}
       </NavigationContainer>
-    </React.Fragment>
+    </AuthContext.Provider>
   );
 }
