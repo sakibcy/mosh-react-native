@@ -14,44 +14,31 @@ import { Button } from "react-native";
 import Screen from "./app/components/Screen";
 
 export default function App() {
-  // const [user, setUser] = useState();
-  // const [isReady, setIsReady] = useState(false);
+  const [user, setUser] = useState();
+  const [isReady, setIsReady] = useState(false);
 
-  // const restoreUser = async () => {
-  //   const user = await authStorage.getUser();
-  //   if (user) setUser(user);
-  // };
-
-  // if (!isReady)
-  //   return (
-  //     <AppLoading
-  //       startAsync={restoreUser}
-  //       onFinish={() => setIsReady(true)}
-  //       onError={() =>
-  //         console.log("There is an error while loading the screen ")
-  //       }
-  //     />
-  //   );
-
-  const showNotification = () => {
-    Notifications.presentNotificationAsync({
-      title: "Congratulation",
-      body: "Your order was successfully placed!",
-      data: {
-        _displayInForeground: true,
-      },
-    });
+  const restoreUser = async () => {
+    const user = await authStorage.getUser();
+    if (user) setUser(user);
   };
 
+  if (!isReady)
+    return (
+      <AppLoading
+        startAsync={restoreUser}
+        onFinish={() => setIsReady(true)}
+        onError={() =>
+          console.log("There is an error while loading the screen ")
+        }
+      />
+    );
+
   return (
-    <Screen>
-      <Button title="click me" onPress={showNotification} />
-    </Screen>
-    // <AuthContext.Provider value={{ user, setUser }}>
-    //   <OfflineNotice />
-    //   <NavigationContainer ref={navigationRef} theme={navigationTheme}>
-    //     {user ? <AppNavigator /> : <AuthNavigator />}
-    //   </NavigationContainer>
-    // </AuthContext.Provider>
+    <AuthContext.Provider value={{ user, setUser }}>
+      <OfflineNotice />
+      <NavigationContainer ref={navigationRef} theme={navigationTheme}>
+        {user ? <AppNavigator /> : <AuthNavigator />}
+      </NavigationContainer>
+    </AuthContext.Provider>
   );
 }
