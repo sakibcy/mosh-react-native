@@ -12,8 +12,13 @@ import { navigationRef } from "./app/navigation/rootNavigation";
 import * as Notifications from "expo-notifications";
 import { Button } from "react-native";
 import Screen from "./app/components/Screen";
+import logger from "./app/utility/logger";
+
+logger.start();
 
 export default function App() {
+  logger.log(new Error("A new Error :)"));
+
   const [user, setUser] = useState();
   const [isReady, setIsReady] = useState(false);
 
